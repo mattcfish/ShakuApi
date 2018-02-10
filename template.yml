@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: |
+  Shaku RESTful service
+
+Resources:
+  GetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: shaku.get
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Environment:
+        Variables:
+          TABLE_NAME: shakuCategories
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /shaku/categories/{resourceId}
+            Method: get
+  GetAllFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: shaku.getAll
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Environment:
+        Variables:
+          TABLE_NAME: shakuCategories
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /shaku/categories
+            Method: get
+  PostFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: shaku.post
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: shakuCategories
+      Events:
+        PutResource:
+          Type: Api
+          Properties:
+            Path: /shaku/categories
+            Method: post
+  PutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: shaku.put
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: shakuCategories
+      Events:
+        PutResource:
+          Type: Api
+          Properties:
+            Path: /shaku/categories/{resourceId}
+            Method: put
+
+  DeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: shaku.delete
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: shakuCategories
+      Events:
+        DeleteResource:
+          Type: Api
+          Properties:
+            Path: /shaku/categories/{resourceId}
+            Method: delete
+  shakuCategories:                   
+    Type: AWS::Serverless::SimpleTable
